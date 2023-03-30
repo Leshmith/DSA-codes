@@ -1,0 +1,30 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+    vector<int> nums; // list of integers
+    int x; // element of the array
+    while (cin >> x) {
+        nums.push_back(x);
+        sort(nums.begin(), nums.end()); // sort the list
+        double median;
+        int m = nums.size() / 2;
+        if (nums.size() % 2 == 0) {
+            median = (nums[m-1] + nums[m]) / 2.0;
+        } else {
+            median = nums[m];
+        }
+        cout << "[";
+        for (int i = 0; i < nums.size(); i++) {
+            cout << nums[i];
+            if (i < nums.size()-1) cout << ", ";
+        }
+        cout << "] ";
+        cout << fixed << setprecision(1) << median << endl; // print the median
+    }
+    return 0;
+}
