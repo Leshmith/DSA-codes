@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <cstdlib> 
+#include <ctime> 
+#include <chrono>
+
+using namespace std;
+
+void quickSort(int* arr, int left, int right) {
+    stack<int> st;
+
+    st.push(left);
+    st.push(right);
+
+    while (!st.empty()) {
+        int end = st.top();
+        st.pop();
+        int start = st.top();
+        st.pop();
+
+        int pivot = arr[(start + end) / 2];
+        int i = start;
+        int j = end;
+
+        while (i <= j) {
+            while (arr[i] < pivot) {
+                i++;
+            }
+
+            while (arr[j] > pivot) {
+                j--;
+            }
+
+            if (i <= j) {
+                swap(arr[i], arr[j]);
+                i++;
+                j--;
+            }
+        }
+
+        if (start < j) {
+            st.push(start);
+            st.push(j);
+        }
+
+        if (i < end) {
+            st.push(i);
+            st.push(end);
+        }
+    }
+}
+
+int main() {
+    srand(time(NULL));  
+    int arr[40000];
+
+    for(int i=0; i<40000; i++){
+        arr[i]=rand()%100+1; 
+    }
+    
+    auto started = std::chrono::high_resolution_clock::now();
+    
+    quickSort(arr, 0, 39999);
+
+    auto done = std::chrono::high_resolution_clock::now();
+
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(done-started).count();
+
+    return 0;
+}
